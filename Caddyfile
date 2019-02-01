@@ -1,0 +1,11 @@
+:80 wordpress.local {
+    root /var/www/html/wordpress
+    gzip
+    fastcgi / php:9000 php
+    rewrite {
+        if {path} not_match ^\/wp-admin
+        to {path} {path}/ /index.php?_url={uri}
+    }
+    log stdout
+    errors stderr
+}

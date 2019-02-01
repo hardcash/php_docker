@@ -1,0 +1,37 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    container_name: mysql
+    volumes:
+      - "./.data:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+  php:
+    depends_on:
+      - db
+    build: './php/'
+    container_name: php-7.2.7-fpm-alpine3.7
+    links:
+      - db
+    restart: always
+    volumes:
+    - "./.web_root:/var/www/html"
+    - "./php.ini:/usr/local/etc/php/conf.d/custom.ini"
+  server:
+    image: abiosoft/caddy
+    container_name: caddy
+    restart: always
+    ports:
+    - "80:80"
+    - "443:443"
+    links:
+    - php
+    volumes:
+    - "./Caddyfile:/etc/Caddyfile"
+    volumes_from:
+    - php
