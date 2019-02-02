@@ -8,9 +8,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: wordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_DATABASE: dbname
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbpass
   php:
     depends_on:
       - db
@@ -20,7 +20,7 @@ services:
       - db
     restart: always
     volumes:
-    - "./.web_root:/var/www/html"
+    - "./web_root:/var/www/html"
     - "./php.ini:/usr/local/etc/php/conf.d/custom.ini"
   server:
     image: abiosoft/caddy
