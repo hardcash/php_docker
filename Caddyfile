@@ -1,5 +1,5 @@
 http://wordpress.local {
-    root /var/www/html
+    root /var/www/html/web
     gzip
     fastcgi / php:9000 php
     rewrite {
